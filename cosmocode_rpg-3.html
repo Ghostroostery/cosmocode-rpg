@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#07111f">
+<title>CosmoCode RPG — Aprende, programa y crea videojuegos</title>
+<style>
+:root{--bg:#06101d;--panel:#0b1929;--panel2:#102238;--line:#1d3854;--text:#e9f5ff;--muted:#8fa8bf;--cyan:#42d9ff;--purple:#9d7cff;--green:#55e39b;--orange:#ffb45c;--red:#ff6678}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,Segoe UI,sans-serif;background:radial-gradient(circle at 20% 0%,#12345b 0,#06101d 38%,#030812 100%);color:var(--text);min-height:100vh}
+button,input,textarea,select{font:inherit}button{cursor:pointer;border:0}.app{display:grid;grid-template-columns:250px 1fr;min-height:100vh}
+aside{border-right:1px solid var(--line);background:rgba(5,15,28,.9);padding:18px;position:sticky;top:0;height:100vh}
+.logo{font-weight:900;font-size:21px;letter-spacing:.5px;margin-bottom:22px}.logo span{color:var(--cyan)}
+.nav button{width:100%;text-align:left;padding:12px;margin:4px 0;background:transparent;color:var(--muted);border-radius:10px}.nav button:hover,.nav button.active{background:#112b45;color:white}.tip{margin-top:25px;padding:14px;background:linear-gradient(145deg,#10283e,#0a1726);border:1px solid var(--line);border-radius:14px;color:var(--muted);font-size:12px;line-height:1.5}
+main{padding:22px;max-width:1500px;width:100%;margin:auto}.top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:20px}.top h1{font-size:25px;margin:0}.badge{padding:8px 12px;border-radius:99px;background:#112b45;color:var(--cyan);font-size:12px;border:1px solid var(--line)}
+.view{display:none}.view.active{display:block}.hero{padding:25px;border:1px solid var(--line);border-radius:18px;background:linear-gradient(130deg,rgba(18,51,82,.8),rgba(10,20,34,.9));margin-bottom:18px}.hero h2{font-size:32px;margin:0 0 8px}.hero p{color:var(--muted);max-width:760px}
+.grid{display:grid;gap:16px}.cards{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}.card{background:rgba(10,24,40,.88);border:1px solid var(--line);border-radius:16px;padding:18px}.card h3{margin:0 0 8px}.card p{color:var(--muted);font-size:14px;line-height:1.5}.icon{font-size:28px}.btn{padding:10px 14px;border-radius:10px;background:#14324f;color:#fff;border:1px solid #255172}.btn.primary{background:linear-gradient(90deg,#197fa8,#6a55c8);border:0}.btn.good{background:#164b3b;color:#8ff2c0}.btn.danger{background:#4d1f2a}.actions{display:flex;gap:8px;flex-wrap:wrap}
+.workspace{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:16px}.editor,.assistant,.lesson,.creator{background:rgba(7,19,32,.94);border:1px solid var(--line);border-radius:16px;overflow:hidden}.bar{padding:11px 14px;background:#0e2135;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}.code{width:100%;min-height:390px;background:#06101a;color:#d9f4ff;border:0;padding:18px;font:14px/1.7 "JetBrains Mono",Consolas,monospace;outline:0;resize:vertical}.console{padding:14px;min-height:90px;background:#040b12;font:13px/1.6 monospace;color:#9ed5e7}.assistant-body{padding:14px}.msg{padding:12px;border-radius:12px;margin-bottom:10px;font-size:13px;line-height:1.5}.ai{background:#102c3d}.error{background:#351d29;border:1px solid #663040}.success{background:#12372c;border:1px solid #245e4b}.inputrow{display:flex;gap:7px;margin-top:10px}.inputrow input{flex:1;background:#07131f;border:1px solid var(--line);color:white;padding:10px;border-radius:9px}
+.lesson{padding:18px}.lesson h3{margin-top:0}.progress{height:9px;background:#09131f;border-radius:99px;overflow:hidden}.progress i{display:block;height:100%;background:linear-gradient(90deg,var(--cyan),var(--purple));width:34%}.lesson code{background:#071521;padding:3px 6px;border-radius:5px;color:var(--green)}
+.creator-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:16px}.form{padding:18px}.form label{display:block;font-size:12px;color:var(--muted);margin:12px 0 6px}.form input,.form select,.form textarea{width:100%;background:#07131f;border:1px solid var(--line);color:white;padding:10px;border-radius:9px}.preview{min-height:460px;position:relative;overflow:hidden;background:radial-gradient(circle at 75% 25%,#5a3d9e55,transparent 25%),linear-gradient(#020714,#081d31 65%,#102c26);border-radius:16px}.stars{position:absolute;inset:0;background-image:radial-gradient(#fff 1px,transparent 1px);background-size:37px 37px;opacity:.25}.planet{position:absolute;width:130px;height:130px;border-radius:50%;right:13%;top:14%;background:linear-gradient(140deg,#8b7cff,#263e85);box-shadow:0 0 40px #806dff55}.ground{position:absolute;bottom:0;left:0;right:0;height:33%;background:linear-gradient(#1b543d,#0b211b)}.hero-char{position:absolute;bottom:18%;left:42%;width:70px;height:90px}.head{width:45px;height:45px;border-radius:40% 40% 45% 45%;background:#ffd0ad;margin:auto;border:3px solid #24354b}.body{width:55px;height:48px;background:#42d9ff;margin:auto;border-radius:12px 12px 8px 8px}.preview-label{position:absolute;left:15px;top:15px;background:#07131dcc;padding:8px 10px;border-radius:8px;font-size:12px}
+.asset-list{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}.asset{padding:12px;background:#0d2033;border:1px solid var(--line);border-radius:10px;text-align:center;font-size:12px;color:var(--muted)}
+@media(max-width:900px){.app{grid-template-columns:1fr}aside{position:relative;height:auto;border-right:0;border-bottom:1px solid var(--line)}.nav{display:grid;grid-template-columns:repeat(4,1fr)}.nav button{font-size:11px;text-align:center}.workspace,.creator-grid{grid-template-columns:1fr}}
+@media(max-width:600px){main{padding:12px}.hero h2{font-size:25px}.nav{grid-template-columns:repeat(2,1fr)}.top{align-items:flex-start;flex-direction:column}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside>
+  <div class="logo">✦ Cosmo<span>Code</span></div>
+  <div class="nav">
+    <button class="active" data-view="home">🚀 Inicio</button>
+    <button data-view="learn">📚 Aprender</button>
+    <button data-view="code">⌨️ Programar</button>
+    <button data-view="studio">🎮 Crear juego</button>
+  </div>
+  <div class="tip"><b>Asistente inteligente</b><br>Detecta errores comunes, explica qué pasó y te propone una corrección sin hacer todo por ti.</div>
+</aside>
+
+<main>
+<div class="top"><h1 id="title">Tu centro de creación</h1><span class="badge">⚡ Optimizado para móvil y PC</span></div>
+
+<section id="home" class="view active">
+  <div class="hero"><h2>Aprende a programar como si explorases un planeta.</h2><p>Una plataforma visual para aprender desde cero, practicar comandos y construir tu propio videojuego. La estética mezcla RPG pixel-art y exploración espacial, sin depender de recursos externos.</p><div class="actions"><button class="btn primary" onclick="show('learn')">Empezar lección</button><button class="btn" onclick="show('studio')">Crear videojuego</button></div></div>
+  <div class="grid cards">
+    <div class="card"><div class="icon">🧠</div><h3>Asistente de código</h3><p>Escribe tu código y recibe explicaciones sencillas sobre errores de sintaxis y lógica.</p></div>
+    <div class="card"><div class="icon">🪐</div><h3>Aprende por misiones</h3><p>Variables, condiciones, ciclos, funciones y objetos convertidos en retos cortos.</p></div>
+    <div class="card"><div class="icon">🧩</div><h3>Constructor de juegos</h3><p>Define mundo, personajes y mecánicas. El prototipo genera una escena jugable.</p></div>
+    <div class="card"><div class="icon">🎨</div><h3>Generador de recursos</h3><p>Crea especificaciones de personajes, fondos, objetos y animaciones para tu proyecto.</p></div>
+  </div>
+</section>
+
+<section id="learn" class="view">
+  <div class="lesson"><h3>📚 Misión 1 — Tu primer comando</h3><p>En muchos lenguajes, una instrucción puede mostrar información. Practica con JavaScript:</p><p><code>console.log("Hola, explorador");</code></p><div class="progress"><i></i></div><p style="color:var(--muted)">Progreso: 34% · 3 misiones completadas</p><div class="actions"><button class="btn primary" onclick="show('code')">Practicar ahora</button><button class="btn" onclick="alert('Misión: cambia el texto dentro de console.log() y vuelve a ejecutar.')">Ver reto</button></div></div>
+  <br><div class="grid cards"><div class="card"><h3>🌱 Nivel 1</h3><p>Variables, tipos de datos y operadores.</p></div><div class="card"><h3>🛰️ Nivel 2</h3><p>Condiciones y ciclos para controlar tu juego.</p></div><div class="card"><h3>🌌 Nivel 3</h3><p>Funciones, objetos y eventos.</p></div></div>
+</section>
+
+<section id="code" class="view">
+<div class="workspace">
+<div>
+  <div class="editor"><div class="bar"><b>main.js</b><button class="btn good" onclick="analyze()">▶ Ejecutar y revisar</button></div>
+<textarea id="codeInput" class="code" spellcheck="false">const jugador = "Explorador";
+console.log("Bienvenido " + jugador);
+
+function saludar(nombre) {
+  console.log("Hola " + nombre);
+}
+
+saludar(jugador);</textarea>
+<div id="console" class="console">Listo. Ejecuta tu código para recibir una revisión.</div></div>
+</div>
+<div class="assistant"><div class="bar"><b>🤖 Nova — Asistente</b><span>●</span></div><div class="assistant-body"><div class="msg ai">Hola. Te señalaré <b>qué está mal</b>, por qué y cómo podrías corregirlo. No reemplazo tu aprendizaje.</div><div id="feedback"></div><div class="inputrow"><input id="question" placeholder="Ej.: ¿qué es una variable?"><button class="btn primary" onclick="ask()">Enviar</button></div></div></div>
+</div>
+</section>
+
+<section id="studio" class="view">
+<div class="hero"><h2>🎮 Game Forge</h2><p>Diseña un videojuego original desde una idea. El sistema prepara una plantilla de proyecto y una lista de recursos que después puedes producir con tus propias herramientas o un generador de imágenes.</p></div>
+<div class="creator-grid">
+<div class="creator form">
+<label>Nombre del juego</label><input id="gameName" value="Starlight Quest">
+<label>Género</label><select id="genre"><option>RPG de exploración</option><option>Plataformas</option><option>Aventura espacial</option><option>Dungeon crawler</option></select>
+<label>Descripción</label><textarea id="desc" rows="4">Un pequeño héroe explora planetas, consigue objetos y descubre ruinas antiguas.</textarea>
+<label>Estilo visual</label><select id="style"><option>Pixel-art RPG</option><option>2D dibujado</option><option>Retro sci-fi</option><option>Minimalista</option></select>
+<div class="actions" style="margin-top:15px"><button class="btn primary" onclick="generateGame()">✨ Generar prototipo</button><button class="btn" onclick="exportProject()">⬇ Exportar plantilla</button></div>
+<div id="assets" class="asset-list"></div>
+</div>
+<div class="preview" id="preview"><div class="stars"></div><div class="planet"></div><div class="ground"></div><div class="hero-char"><div class="head"></div><div class="body"></div></div><div class="preview-label" id="previewLabel">Starlight Quest · Demo</div></div>
+</div>
+</section>
+</main>
+</div>
+<script>
+const views={home:"Tu centro de creación",learn:"Academia de misiones",code:"Laboratorio de código",studio:"Game Forge"};
+function show(id){document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));document.getElementById(id).classList.add('active');document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.view===id));document.getElementById('title').textContent=views[id];window.scrollTo({top:0,behavior:"smooth"})}
+document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>show(b.dataset.view));
+
+function analyze(){
+ const code=document.getElementById('codeInput').value, fb=document.getElementById('feedback'), out=document.getElementById('console');
+ let issues=[];
+ if((code.match(/\(/g)||[]).length!==(code.match(/\)/g)||[]).length) issues.push(["error","Paréntesis desbalanceados","Revisa que cada '(' tenga su ')' correspondiente."]);
+ if((code.match(/{/g)||[]).length!==(code.match(/}/g)||[]).length) issues.push(["error","Llaves desbalanceadas","Revisa que cada '{' tenga su '}' correspondiente."]);
+ if(/console\.log\s*\(\s*\)/.test(code)) issues.push(["error","console.log está vacío","Añade un valor o texto dentro de los paréntesis. Ejemplo: console.log(\"Hola\");"]);
+ if(/var\s+\w+/.test(code)) issues.push(["tip","Puedes usar const o let","En JavaScript moderno suelen ser opciones más claras que var."]);
+ if(!/console\.log/.test(code)) issues.push(["tip","No hay una salida visible","Prueba console.log(...) para comprobar el resultado mientras aprendes."]);
+ if(!issues.length){fb.innerHTML='<div class="msg success">✅ No encontré errores comunes en esta revisión. ¡Buen trabajo! Ahora intenta modificar el programa y comprueba qué cambia.</div>';out.textContent="✓ Revisión completada sin errores comunes."}
+ else{fb.innerHTML=issues.map(x=>`<div class="msg ${x[0]==='error'?'error':'ai'}"><b>${x[1]}</b><br>${x[2]}</div>`).join('');out.textContent="⚠ Revisión completada: "+issues.length+" observación(es)."}
+}
+function ask(){
+ const q=document.getElementById('question').value.trim();if(!q)return;
+ let a="Una variable es un espacio con nombre donde guardas un dato. Por ejemplo: const vida = 100; Luego puedes usar vida en otras instrucciones.";
+ if(/error|fall|mal|no funciona/i.test(q)) a="Primero revisa paréntesis, llaves, comillas y nombres escritos exactamente igual. Ejecuta la revisión del editor para ver sugerencias concretas.";
+ if(/for|ciclo/i.test(q)) a="Un ciclo for repite instrucciones. Ejemplo: for (let i = 0; i < 5; i++) { console.log(i); }";
+ if(/funci/i.test(q)) a="Una función agrupa instrucciones reutilizables. Puedes declarar function atacar() { ... } y luego llamarla con atacar();";
+ document.getElementById('feedback').innerHTML='<div class="msg ai"><b>Nova:</b> '+a+'</div>'+document.getElementById('feedback').innerHTML;document.getElementById('question').value="";
+}
+function generateGame(){
+ const name=document.getElementById('gameName').value||"Mi juego", style=document.getElementById('style').value;
+ document.getElementById('previewLabel').textContent=name+" · Prototipo · "+style;
+ document.getElementById('assets').innerHTML=['🧙 Personaje','🌌 Fondo','🪐 Planeta','🗡️ Objetos','✨ Efectos','🎵 Sonidos'].map(x=>`<div class="asset">${x}<br><small>plantilla lista</small></div>`).join('');
+}
+function exportProject(){
+ const name=(document.getElementById('gameName').value||"mi-juego").toLowerCase().replace(/[^a-z0-9]+/g,'-');
+ const data={name,genre:document.getElementById('genre').value,style:document.getElementById('style').value,description:document.getElementById('desc').value};
+ const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name+".json";a.click();URL.revokeObjectURL(a.href);
+}
+analyze();
+</script>
+</body>
+</html>
